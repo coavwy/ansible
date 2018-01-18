@@ -1,0 +1,29 @@
+---
+- name: clone nginx-ldap-auth repo
+  git:
+    repo: "{{ ldap_auth_repo }}"
+    dest: "{{ ldap_auth_path }}"
+- name: create nginx-ldap-auth group
+  group:
+    name: nginx-ldap-auth
+    state: present
+- name: create nginx-ldap-auth user
+  user:
+    name: nginx-ldap-auth
+    group: nginx-ldap-auth
+- name: copy systemd service file
+  template:
+    src: nginx-ldap-auth.service.j2
+    dest: /usr/lib/systemd/system/nginx-ldap-auth.service
+- name: copy configs
+  copy:
+    src: "{{ item.value.src }}"
+    dest: "{{ item.value.dest }}"
+  with_dict: "{{ ldap_auth_configs }}"
+- name: enable nginx-ldap-auth service
+  service:
+    name: nginx-ldap-auth
+    enabled: yes
+  notify:
+  - restart nginx
+  - restart nginx-ldap-auth

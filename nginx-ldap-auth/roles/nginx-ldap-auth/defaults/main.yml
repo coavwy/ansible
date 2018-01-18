@@ -1,0 +1,11 @@
+---
+ldap_auth_repo: https://github.com/nginxinc/nginx-ldap-auth.git
+ldap_auth_path: /srv/nginx-ldap-auth
+
+ldap_auth_configs:
+  ldap_auth:
+    src: nginx-ldap-auth.conf
+    dest: /etc/nginx/nginx-ldap-auth.conf
+  auth_cache:
+    src: auth_cache.conf
+    dest: /etc/nginx/conf.d/auth_cache.conf

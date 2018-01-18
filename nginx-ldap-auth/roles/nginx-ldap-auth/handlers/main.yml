@@ -1,0 +1,9 @@
+---
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+- name: restart nginx-ldap-auth
+  service:
+    name: nginx-ldap-auth
+    state: restarted

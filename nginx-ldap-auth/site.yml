@@ -1,0 +1,17 @@
+---
+- hosts: all
+  roles:
+    - role: ansible-role-nginx
+      nginx_official_repo: True
+    - role: nginx-ldap-auth
+    - role: ansible-role-nginx
+      nginx_official_repo: True
+      nginx_sites:
+        foo:
+           - listen 9090
+           - root /var/www/html
+           - |
+             location / {
+               auth_request /auth-proxy;
+             }
+             include /etc/nginx/nginx-ldap-auth.conf;
